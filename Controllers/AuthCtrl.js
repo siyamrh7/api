@@ -28,7 +28,7 @@ const signinCtrl=async(req,res)=>{
         const cheak=await bcrypt.compare(password,find.password)
         if(!cheak){return res.send("Inavlid Password")}
         const token=await jwt.sign({email},process.env.JWT_SECRET,{expiresIn:'7d'})
-        res.json({token,msg:"Login Successful"})
+        res.send("Login Successful")
     } catch (error) {
         res.send(error.message)
     }
