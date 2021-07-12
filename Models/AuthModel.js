@@ -26,6 +26,10 @@ const userSchema=new mongoose.Schema({
     affiliate:{
         type:String
     },
+    role:{
+        type:String,
+        default:"admin"
+    },
     date:{
         type:Date,
         default:Date.now()

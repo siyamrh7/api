@@ -12,4 +12,13 @@ const userAuth=async(req,res,next)=>{
         res.send(error.message)
     }
 }
-module.exports={userAuth}
+const adminAuth=async(req,res,next)=>{
+    try {
+        const user=req.user
+        if(user.role!="admin"){return res.send("Admin access denied")}
+        next()
+    } catch (error) {
+        res.send(error.message)
+    }
+}
+module.exports={userAuth,adminAuth}
