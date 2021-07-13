@@ -23,7 +23,7 @@ const getProducts=async(req,res)=>{
 }
 const singleProduct=async(req,res)=>{
     try {
-        const product= await Products.findById(req.body.id)
+        const product= await Products.findById(req.params.id)
         res.send(product)
     } catch (error) {
         res.send(error.message)
