@@ -22,40 +22,48 @@ const getProducts = async (req, res) => {
  const skip=limit * page
     
  if(search && currency && price){
+  const count=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).countDocuments()
   const products=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).sort(price).limit(12).skip(skip)
-  return res.send(products)
+  return res.json({products,count})
 }
    if(price && search){
+    const count=await Products.find({name:{$regex:search,$options:'i'}}).countDocuments()
      const products=await Products.find({name:{$regex:search,$options:'i'}}).sort(price).limit(12).skip(skip)
-     return res.send(products)
+     return res.json({products,count})
    }
    if(search && currency){
+    const count=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).countDocuments()
      const products=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).limit(12).skip(skip)
-     return res.send(products)
+     return res.json({products,count})
    }
     if (price && currency) {
+      const count = await Products.find({currency}).countDocuments()
       const products = await Products.find({currency}).sort(price).limit(12).skip(skip)
-      return res.send(products);
+      return res.json({products,count});
     }
      if(search){
+      const count=await Products.find({name:{$regex:search,$options:'i'}}).countDocuments()
       const products=await Products.find({name:{$regex:search,$options:'i'}}).limit(12).skip(skip)
-      return res.send(products)
+      return res.json({products,count})
     }
     if (currency) {
+      const count = await Products.find({currency}).countDocuments()
       const products = await Products.find({currency}).limit(12).skip(skip)
-      return res.send(products);
+      return res.json({products,count});
     }
     if (price) {
+      const count = await Products.find({}).countDocuments()
       const products = await Products.find({}).sort(price).limit(12).skip(skip)
-      return res.send(products);
+      return res.json({products,count});
     }
     if (date) {
+      const count = await Products.find({}).countDocuments()
       const products = await Products.find({}).sort(date).limit(12).skip(skip)
-      return res.send(products);
+      return res.json({products,count});
     }
-
+    const count = await Products.find({}).countDocuments()
       const products = await Products.find({}).sort("-date").limit(12).skip(skip)
-      return  res.send(products);
+      return  res.json({products,count});
     
   } catch (error) {
     res.send(error.message);
