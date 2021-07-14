@@ -17,25 +17,40 @@ const createProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    const { price, date ,currency,page} = req.query;
+    const { price, date ,currency,page,search} = req.query;
    const limit=12
  const skip=limit * page
+    
+ if(search && currency && price){
+  const products=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).sort(price).limit(12).skip(skip)
+  return res.send(products)
+}
+   if(price && search){
+     const products=await Products.find({name:{$regex:search,$options:'i'}}).sort(price).limit(12).skip(skip)
+     return res.send(products)
+   }
+   if(search && currency){
+     const products=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).limit(12).skip(skip)
+     return res.send(products)
+   }
     if (price && currency) {
-      const products = await Products.find({currency}).sort(price);
+      const products = await Products.find({currency}).sort(price).limit(12).skip(skip)
       return res.send(products);
     }
-    if (date && currency) {
-      const products = await Products.find({currency}).sort(date);
+     if(search){
+      const products=await Products.find({name:{$regex:search,$options:'i'}}).limit(12).skip(skip)
+      return res.send(products)
+    }
+    if (currency) {
+      const products = await Products.find({currency}).limit(12).skip(skip)
       return res.send(products);
     }
-   
     if (price) {
-      const products = await Products.find({}).sort(price);
+      const products = await Products.find({}).sort(price).limit(12).skip(skip)
       return res.send(products);
     }
-   
     if (date) {
-      const products = await Products.find({}).sort(date);
+      const products = await Products.find({}).sort(date).limit(12).skip(skip)
       return res.send(products);
     }
 
