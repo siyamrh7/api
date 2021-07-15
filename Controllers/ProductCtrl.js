@@ -17,54 +17,102 @@ const createProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    const { price, date ,currency,page,search} = req.query;
-   const limit=12
- const skip=limit * page
-    
- if(search && currency && price){
-  const count=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).countDocuments()
-  const products=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).sort(price).limit(12).skip(skip)
-  return res.json({products,count})
-}
-   if(price && search){
-    const count=await Products.find({name:{$regex:search,$options:'i'}}).countDocuments()
-     const products=await Products.find({name:{$regex:search,$options:'i'}}).sort(price).limit(12).skip(skip)
-     return res.json({products,count})
-   }
-   if(search && currency){
-    const count=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).countDocuments()
-     const products=await Products.find({currency:currency,name:{$regex:search,$options:'i'}}).limit(12).skip(skip)
-     return res.json({products,count})
-   }
-    if (price && currency) {
-      const count = await Products.find({currency}).countDocuments()
-      const products = await Products.find({currency}).sort(price).limit(12).skip(skip)
-      return res.json({products,count});
+    const { price, createdAt, currency, page, search } = req.query;
+    const limit = 12;
+    const skip = limit * page;
+
+    if (search && currency && price) {
+      const count = await Products.find({
+        currency: currency,
+        name: { $regex: search, $options: "i" },
+      }).countDocuments();
+      const products = await Products.find({
+        currency: currency,
+        name: { $regex: search, $options: "i" },
+      })
+        .sort(price)
+        .limit(12)
+        .skip(skip);
+      return res.json({ products, count });
     }
-     if(search){
-      const count=await Products.find({name:{$regex:search,$options:'i'}}).countDocuments()
-      const products=await Products.find({name:{$regex:search,$options:'i'}}).limit(12).skip(skip)
-      return res.json({products,count})
+    if (price && search) {
+      const count = await Products.find({
+        name: { $regex: search, $options: "i" },
+      }).countDocuments();
+      const products = await Products.find({
+        name: { $regex: search, $options: "i" },
+      })
+        .sort(price)
+        .limit(12)
+        .skip(skip);
+      return res.json({ products, count });
+    }
+    if (search && currency) {
+      const count = await Products.find({
+        currency: currency,
+        name: { $regex: search, $options: "i" },
+      }).countDocuments();
+      const products = await Products.find({
+        currency: currency,
+        name: { $regex: search, $options: "i" },
+      })
+        .limit(12)
+        .skip(skip);
+      return res.json({ products, count });
+    }
+    if (price && currency) {
+      const count = await Products.find({ currency }).countDocuments();
+      const products = await Products.find({ currency })
+        .sort(price)
+        .limit(12)
+        .skip(skip);
+      return res.json({ products, count });
+    }
+    if (createdAt && currency) {
+      const count = await Products.find({ currency }).countDocuments();
+      const products = await Products.find({ currency })
+        .sort(createdAt)
+        .limit(12)
+        .skip(skip);
+      return res.json({ products, count });
+    }
+    if (createdAt && search) {
+      const count = await Products.find({ search }).countDocuments();
+      const products = await Products.find({ search })
+        .sort(createdAt)
+        .limit(12)
+        .skip(skip);
+      return res.json({ products, count });
+    }
+    if (search) {
+      const count = await Products.find({
+        name: { $regex: search, $options: "i" },
+      }).countDocuments();
+      const products = await Products.find({
+        name: { $regex: search, $options: "i" },
+      })
+        .limit(12)
+        .skip(skip);
+      return res.json({ products, count });
     }
     if (currency) {
-      const count = await Products.find({currency}).countDocuments()
-      const products = await Products.find({currency}).limit(12).skip(skip)
-      return res.json({products,count});
+      const count = await Products.find({ currency }).countDocuments();
+      const products = await Products.find({ currency }).limit(12).skip(skip);
+      return res.json({ products, count });
     }
     if (price) {
-      const count = await Products.find({}).countDocuments()
-      const products = await Products.find({}).sort(price).limit(12).skip(skip)
-      return res.json({products,count});
+      const count = await Products.find({}).countDocuments();
+      const products = await Products.find({}).sort(price).limit(12).skip(skip);
+      return res.json({ products, count });
     }
-    if (date) {
-      const count = await Products.find({}).countDocuments()
-      const products = await Products.find({}).sort(date).limit(12).skip(skip)
-      return res.json({products,count});
+    if (createdAt) {
+      const count = await Products.find({}).countDocuments();
+      const products = await Products.find({}).sort(createdAt).limit(12).skip(skip);
+      return res.json({ products, count });
     }
-    const count = await Products.find({}).countDocuments()
-      const products = await Products.find({}).sort("-date").limit(12).skip(skip)
-      return  res.json({products,count});
-    
+    const count = await Products.find({}).countDocuments();
+    const products = await Products.find({}).sort("-createdAt").limit(12).skip(skip);
+    return res.json({ products, count });
   } catch (error) {
     res.send(error.message);
   }

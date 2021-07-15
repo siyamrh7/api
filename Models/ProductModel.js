@@ -1,114 +1,95 @@
-const mongoose = require('mongoose')
-const productSchema=new mongoose.Schema({
-    currency:{
-        type:String,
-        required:true
+const mongoose = require("mongoose");
+const productSchema = new mongoose.Schema(
+  {
+    currency: {
+      type: String,
+      required: true,
     },
-    detail1name:{
-        type:String,
-        
+    detail1name: {
+      type: String,
     },
-    detail1value:{
-        type:String,
-        
+    detail1value: {
+      type: String,
     },
-    detail2name:{
-        type:String,
-        
+    detail2name: {
+      type: String,
     },
-    detail2value:{
-        type:String,
-        
+    detail2value: {
+      type: String,
     },
     detail3name: {
-        type:String,
-        
+      type: String,
     },
     detail3value: {
-        type:String,
-        
+      type: String,
     },
     detail4name: {
-        type:String,
-        
+      type: String,
     },
     detail4value: {
-        type:String,
-        
+      type: String,
     },
-    detail5name:{
-        type:String,
-        
+    detail5name: {
+      type: String,
     },
     detail5value: {
-        type:String,
-        
+      type: String,
     },
     detail6name: {
-        type:String,
-        
+      type: String,
     },
     detail6value: {
-        type:String,
-        
+      type: String,
     },
     detail7name: {
-        type:String,
-        
+      type: String,
     },
-    detail7value:{
-        type:String,
-        
+    detail7value: {
+      type: String,
     },
     detail8name: {
-        type:String,
-        
+      type: String,
     },
     detail8value: {
-        type:String,
-        
+      type: String,
     },
     detail9name: {
-        type:String,
-        
+      type: String,
     },
     detail9value: {
-        type:String,
-        
+      type: String,
     },
-    detail10name:{
-        type:String,
-        
+    detail10name: {
+      type: String,
     },
     detail10value: {
-        type:String,
-        
+      type: String,
     },
     event: {
-        type:String,
-        
+      type: String,
     },
     images: {
-        type:Object,
-        required:true
+      type: Object,
+      required: true,
     },
     name: {
-        type:String,
-        requred:true
+      type: String,
+      requred: true,
     },
     price: {
-        type:Number,
-        required:true
-        
+      type: Number,
+      required: true,
     },
-    date:{
-        type:Date,
-        default:Date.now()
-    }
-},{
-    timestamps:true
-})
+    date: {
+      type: Date,
+      default: Date.now(),
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Products=mongoose.model('Products',productSchema)
+const Products = mongoose.model("Products", productSchema);
 
-module.exports=Products
+module.exports = Products;
