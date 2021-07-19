@@ -7,7 +7,6 @@ const userAuth = async (req, res, next) => {
       return res.json({msg:"Invalid Authentication"});
     }
     const { id } = await jwt.verify(token, process.env.JWT_SECRET);
-    console.log(id)
     if (!id) {
       return res.json({msg:"Invalid Authentication"});
     }
