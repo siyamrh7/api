@@ -14,7 +14,7 @@ const userAuth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.send(error.message);
+    res.json({msg:error.message});
   }
 };
 const adminAuth = async (req, res, next) => {
