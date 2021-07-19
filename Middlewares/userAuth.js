@@ -6,11 +6,11 @@ const userAuth = async (req, res, next) => {
     if (!token) {
       return res.json({msg:"Invalid Authentication"});
     }
-    const { email } = await jwt.verify(token, process.env.JWT_SECRET);
+    const { id } = await jwt.verify(token, process.env.JWT_SECRET);
     if (!email) {
       return res.json({msg:"Invalid Authentication"});
     }
-    const user = await Users.findOne({ email });
+    const user = await Users.findOne({ _id:id });
     req.user = user;
     next();
   } catch (error) {
