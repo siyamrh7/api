@@ -14,7 +14,7 @@ const userAuth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.json({msg:error.message});
+    res.json({msg:"Please Login First"});
   }
 };
 const adminAuth = async (req, res, next) => {
