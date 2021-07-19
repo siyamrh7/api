@@ -34,6 +34,14 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  orders:[
+    {
+      type:mongoose.Types.ObjectId,
+      ref:"Orders"
+    }
+  ]
+},{
+  timestamps:true
 });
 
 const Users = mongoose.model("Users", userSchema);

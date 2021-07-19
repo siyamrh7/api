@@ -120,10 +120,31 @@ const getProducts = async (req, res) => {
 const singleProduct = async (req, res) => {
   try {
     const product = await Products.findById(req.params.id);
-    res.send(product);
+    res.json({product});
   } catch (error) {
-    res.send(error.message);
+    res.json({msg:error.message});
   }
 };
+const editProduct=async(req,res)=>{
+  try {
+    const {id}=req.params
+    
+    const product=await Products.findByIdAndUpdate(id,{
+      ...req.body
+    },{new:true})
+    res.json({product})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
+const deleteProduct=async(req,res)=>{
+  try {
+    const {id}=req.params
+    const product=await Products.findByIdAndDelete(id)
+    res.json({msg:`${product.name} deleted Successfully`})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
 
-module.exports = { createProduct, getProducts, singleProduct };
+module.exports = { createProduct, getProducts, singleProduct,editProduct ,deleteProduct};

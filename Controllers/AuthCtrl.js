@@ -7,15 +7,15 @@ const signupCtrl = async (req, res) => {
     const { fname, lname, password, email, affiliate, country, cpassword } =
       req.body;
     if (!email || !password || !fname || !lname || !cpassword || !country) {
-      return res.send("Invalid Creadentials");
+      return res.json({msg:"Invalid Creadentials"});
     }
     const find = await Users.findOne({ email });
     if (find) {
-      return res.send("User Aleady Exist");
+      return res.json({msg:"User Aleady Exist"});
     }
     const pass = password === cpassword;
     if (!pass) {
-      return res.send("Password Didn't Match");
+      return res.json({msg:"Password Didn't Match"});
     }
     const hashpass = await bcrypt.hash(password, 10);
     const user = new Users({
@@ -27,32 +27,68 @@ const signupCtrl = async (req, res) => {
       affiliate,
     });
     await user.save();
-    res.send("Signup Success, Now you can login");
+    res.json({msg:"Signup Success, Now you can login"});
   } catch (error) {
-    res.send(error.message);
+    res.json({msg:error.message});
   }
 };
 const signinCtrl = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.send("Invalid Creadentials");
+      return res.json({msg:"Invalid Creadentials"});
     }
     const find = await Users.findOne({ email });
     if (!find) {
-      return res.send("User Doesn't Exist");
+      return res.json({msg:"User Doesn't Exist"});
     }
     const cheak = await bcrypt.compare(password, find.password);
     if (!cheak) {
-      return res.send("Inavlid Password");
+      return res.json({msg:"Inavlid Password"});
     }
     const token = await jwt.sign({ email }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn:'7d',
     });
-    res.send("Login Successful");
+    res.json({token,msg:"Login Successfull"});
   } catch (error) {
-    res.send(error.message);
+    res.json({msg:error.message});
   }
 };
-
-module.exports = { signupCtrl, signinCtrl };
+const singleUser=async(req,res)=>{
+  try {
+    
+    const user=await Users.findOne({_id:req.user._id}).populate("orders")
+    res.json({user})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
+const getUsers=async(req,res)=>{
+  try {
+ const users=await Users.find({}).sort("-createdAt")
+    res.json({users})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
+const deleteUser=async(req,res)=>{
+  try {
+    const {id}=req.params
+    await Users.findByIdAndDelete(id)
+    res.json({msg:"User Deleted Successfully"})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
+const editUser=async(req,res)=>{
+  try {
+    const {id}=req.params
+    await Users.findByIdAndUpdate(id,{
+      ...req.body
+    })
+    res.json({msg:"Updated Successfully"})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
+module.exports = { signupCtrl, signinCtrl ,singleUser,getUsers,deleteUser,editUser};

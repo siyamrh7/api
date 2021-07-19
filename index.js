@@ -5,6 +5,8 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const AuthRoute = require("./Routes/AuthRoute");
 const ProductRoute = require("./Routes/ProductRoute");
+const OrderRoute = require("./Routes/OrderRoute");
+
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
@@ -23,4 +25,5 @@ app.use(
 );
 app.use("/", AuthRoute);
 app.use("/", ProductRoute);
+app.use("/", OrderRoute)
 app.listen(process.env.PORT, () => console.log("SERVER IS RUNNING"));
