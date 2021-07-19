@@ -46,7 +46,7 @@ const signinCtrl = async (req, res) => {
     if (!cheak) {
       return res.json({msg:"Inavlid Password"});
     }
-    const token = await jwt.sign({ email }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ id:find._id }, process.env.JWT_SECRET, {
       expiresIn:'7d',
     });
     res.json({token,msg:"Login Successfull"});
