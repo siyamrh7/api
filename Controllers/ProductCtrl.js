@@ -3,13 +3,13 @@ const createProduct = async (req, res) => {
   try {
     const { name, images, price } = req.body;
     if (!name || !price || !images) {
-      return res.send("Please enter required filled");
+      return res.json({msg:"Please enter required filled"});
     }
     const product = new Products({
       ...req.body,
     });
     const prod = await product.save();
-    res.send(prod);
+    res.json({msg:`Product ${prod.name} Created`});
   } catch (error) {
     res.send(error.message);
   }
