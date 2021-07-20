@@ -20,7 +20,7 @@ const orderCreate=async(req,res)=>{
 }
 const getOrders=async(req,res)=>{
     try {
-        const orders=await Orders.find({}).sort("createdAt").populate("user","-orders")
+        const orders=await Orders.find({}).sort("-createdAt").populate("user","-orders")
         res.json({orders})
     } catch (error) {
         res.json({msg:error.message})
