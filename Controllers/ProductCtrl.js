@@ -1,4 +1,5 @@
 const Products = require("../Models/ProductModel");
+const Categories=require("../Models/CategoryModel")
 const createProduct = async (req, res) => {
   try {
     const { name, images, price } = req.body;
@@ -159,6 +160,38 @@ const deleteProduct = async (req, res) => {
     res.json({ msg: error.message });
   }
 };
+const createCategory=async(req,res)=>{
+  try {var category=req.body.category
+    category=category.toUpperCase()
+    const find=await Categories.findOne({category})
+    if(find){return res.json({msg:"THIS CATEGORY ALREADY EXIST"})}
+    const categories=new Categories({
+      category
+    })
+    const Category=await categories.save()
+    res.json({msg:`Category ${Category.category} Created`})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
+
+const getCategory=async(req,res)=>{
+  try {
+    const categories=await Categories.find({})
+    res.json({categories})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
+
+const deleteCategory=async(req,res)=>{
+  try {
+    const category=await Categories.findByIdAndDelete(req.params.id)
+    res.json({msg:`Category ${category.category} Deleted`})
+  } catch (error) {
+    res.json({msg:error.message})
+  }
+}
 
 module.exports = {
   createProduct,
@@ -166,4 +199,7 @@ module.exports = {
   singleProduct,
   editProduct,
   deleteProduct,
+  createCategory,
+  getCategory,
+  deleteCategory
 };
